@@ -2,6 +2,7 @@
 
 import sys
 
+from PyQt5.QtCore import Qt
 from PyQt5 import uic
 from PyQt5.QtWidgets import (QApplication, QMainWindow,
                              QToolButton, QTextEdit, QPushButton, QComboBox)
@@ -16,21 +17,29 @@ class PrimaryWindow(QMainWindow):
         self._folder_textbox = None
         self._sort_bybox = None
         self._sort_button = None
+        self.load_window()
 
-        self.load_mainwindow()
-
-    def load_mainwindow(self):
+    def load_window(self):
         """Loads the main window ui"""
 
         app = QApplication(sys.argv)
-        self._folder_choice = QToolButton("FolderChoice", self)
-        self._folder_textbox = QTextEdit("FolderTextbox", self)
-        self._sort_bybox = QComboBox("SortByBox", self)
-        self._sort_button = QPushButton("SortButton", self)
+        self._folder_choice = QToolButton()
+        self._folder_textbox = QTextEdit()
+        self._sort_bybox = QComboBox()
+        self._sort_button = QPushButton()
 
         widget = uic.loadUi("../ui/main.ui")
         widget.show()
 
-        self._folder_choice.clicked.connect(self.button_clicked())
-
         sys.exit(app.exec())
+
+    def exit(self, key):
+        """Exits application"""
+
+        if key.key() == Qt.Key_Escape:
+            self.close()
+
+    def button_clicked(self):
+        """Event handler for button presses"""
+
+        #sender = self.sender()
