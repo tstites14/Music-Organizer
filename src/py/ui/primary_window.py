@@ -5,7 +5,7 @@ import os
 
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
-from PyQt5.QtWidgets import (QApplication, QMainWindow,
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QFileDialog,
                              QToolButton, QTextEdit, QPushButton, QComboBox)
 
 class PrimaryWindow(QMainWindow):
@@ -42,7 +42,12 @@ class PrimaryWindow(QMainWindow):
     def folder_choice_click(self):
         """Event handler for folder_choice presses"""
 
-        print("TEST")
+        directory = QFileDialog.getExistingDirectory(self, "Select Folder", "/home")
+        files = os.listdir(directory)
+
+        for _f in files:
+            path = f"{directory}/{_f}"
+            print(path)
 
     def sort_button_click(self):
         """Event handler for sort_button presses"""
