@@ -14,7 +14,7 @@
    <string>Music Organizer</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QToolButton" name="FolderChoice">
+   <widget class="QToolButton" name="folder_choice">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -27,7 +27,7 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="FolderTextbox">
+   <widget class="QTextEdit" name="folder_textbox">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -37,7 +37,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="FolderLabel">
+   <widget class="QLabel" name="folder_label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -50,7 +50,7 @@
      <string>Folders to organize</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="SortByBox">
+   <widget class="QComboBox" name="sort_by_box">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -80,7 +80,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="SortByLabel">
+   <widget class="QLabel" name="sort_by_label">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -93,7 +93,7 @@
      <string>Sort by</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="SortButton">
+   <widget class="QPushButton" name="sort_button">
     <property name="geometry">
      <rect>
       <x>40</x>
