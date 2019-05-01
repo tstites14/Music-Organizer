@@ -43,7 +43,7 @@ class PrimaryWindow(QMainWindow):
         """Event handler for folder_choice presses"""
 
         directory = QFileDialog.getExistingDirectory(self, "Select Folder", "/home")
-        files = os.listdir(directory)
+        files = [_f for _f in os.listdir(directory) if _f.endswith(".py")]
 
         for _f in files:
             path = f"{directory}/{_f}"
