@@ -24,16 +24,19 @@ class PrimaryWindow(QMainWindow):
     def load_window(self, app):
         """Loads the main window ui"""
 
+        #Loads the ui from the .ui file
         path = os.path.dirname(sys.modules['__main__'].__file__)
         widget = uic.loadUi(os.path.join(path, '../ui/main.ui'))
         widget.show()
 
+        #Assigns widget objects to the ui's objects
         self._ui = widget
         self._folder_choice = self._ui.folder_choice
         self._folder_textbox = self._ui.folder_textbox
         self._sort_bybox = self._ui.sort_by_box
         self._sort_button = self._ui.sort_button
 
+        #Connects buttons to trigger methods
         self._folder_choice.clicked.connect(self.folder_choice_click)
         self._sort_button.clicked.connect(self.sort_button_click)
 
@@ -42,9 +45,11 @@ class PrimaryWindow(QMainWindow):
     def folder_choice_click(self):
         """Event handler for folder_choice presses"""
 
+        #Open a file dialog and get the files that end with the .py extension
         directory = QFileDialog.getExistingDirectory(self, "Select Folder", "/home")
         files = [_f for _f in os.listdir(directory) if _f.endswith(".py")]
 
+        #Combine the directory and file names to generate a path for each file
         for _f in files:
             path = f"{directory}/{_f}"
             print(path)
