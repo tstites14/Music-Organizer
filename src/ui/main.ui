@@ -69,16 +69,6 @@
       <string>Album</string>
      </property>
     </item>
-    <item>
-     <property name="text">
-      <string>Genre</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Year</string>
-     </property>
-    </item>
    </widget>
    <widget class="QLabel" name="sort_by_label">
     <property name="geometry">

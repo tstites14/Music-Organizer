@@ -3,6 +3,8 @@
 import sys
 import os
 
+from mutagen.mp3 import EasyMP3
+
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QFileDialog
 
@@ -13,6 +15,7 @@ class PrimaryWindow(QMainWindow):
         super().__init__()
 
         self._paths = []
+        self._directory = ""
 
         self._ui = None
         self._folder_choice = None
@@ -45,9 +48,11 @@ class PrimaryWindow(QMainWindow):
     def folder_choice_click(self):
         """Event handler for folder_choice presses"""
 
-        #Open a file dialog and get the files that end with the .mp3 or .flac extension
+        #Open a file dialog and get the files that end with the .mp3 extension
         directory = QFileDialog.getExistingDirectory(self, "Select Folder", "/home")
-        files = [_f for _f in os.listdir(directory) if _f.endswith(".mp3") or _f.endswith(".flac")]
+        files = [_f for _f in os.listdir(directory) if _f.endswith(".mp3")]
+
+        self._directory = directory
 
         #Combine the directory and file names to generate a path for each file
         for _f in files:
@@ -60,5 +65,29 @@ class PrimaryWindow(QMainWindow):
     def sort_button_click(self):
         """Event handler for sort_button presses"""
 
+        folder_names = []
+
+        #Get the index of the combo box selection
+        type_of_sort = self._sort_bybox.currentIndex()
+
         for path in self._paths:
-            print(path)
+            track = EasyMP3(path)
+
+            #Extract the appropriate type of ID3 data based on type_of_sort
+            if type_of_sort == 0:
+                artist = track["artist"][0]
+                folder_names.append(artist)
+            elif type_of_sort == 1:
+                album = track["album"][0]
+                folder_names.append(album)
+
+        #Remove duplicates from list
+        folder_names = list(dict.fromkeys(folder_names))
+        self.sort_files(folder_names)
+
+    def sort_files(self, names):
+        """Sorts files into the appropriate folder"""
+
+        for name in names:
+            print(f"{self._directory}/{name}")
+            os.mkdir(f"{self._directory}/{name}/")
