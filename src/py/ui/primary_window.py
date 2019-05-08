@@ -43,24 +43,33 @@ class PrimaryWindow(QMainWindow):
         self._folder_choice.clicked.connect(self.folder_choice_click)
         self._sort_button.clicked.connect(self.sort_button_click)
 
+        #Disable the sort button until a folder has been chosen
+        self._sort_button.setEnabled(False)
+
         sys.exit(app.exec())
 
     def folder_choice_click(self):
         """Event handler for folder_choice presses"""
 
-        #Open a file dialog and get the files that end with the .mp3 extension
+        #Open a file dialog
         directory = QFileDialog.getExistingDirectory(self, "Select Folder", "/home")
-        files = [_f for _f in os.listdir(directory) if _f.endswith(".mp3")]
+        
+        if directory:
+            #Get the files that end with the .mp3 extension
+            files = [_f for _f in os.listdir(directory) if _f.endswith(".mp3")]
 
-        self._directory = directory
+            self._directory = directory
 
-        #Combine the directory and file names to generate a path for each file
-        for _f in files:
-            self._paths.append(f"{directory}/{_f}")
+            #Combine the directory and file names to generate a path for each file
+            for _f in files:
+                self._paths.append(f"{directory}/{_f}")
 
-        #Set the textbox ui item to the directory selected
-        self._folder_textbox.setText(directory)
-        self._folder_textbox.setReadOnly(True)
+            #Set the textbox ui item to the directory selected
+            self._folder_textbox.setText(directory)
+            self._folder_textbox.setReadOnly(True)
+
+            if self._paths:
+                self._sort_button.setEnabled(True)
 
     def sort_button_click(self):
         """Event handler for sort_button presses"""
