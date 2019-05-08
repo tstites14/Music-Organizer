@@ -6,7 +6,7 @@ import os
 from mutagen.mp3 import EasyMP3
 
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 
 class PrimaryWindow(QMainWindow):
     """Class containing the main ui window"""
@@ -66,6 +66,7 @@ class PrimaryWindow(QMainWindow):
         """Event handler for sort_button presses"""
 
         folder_names = []
+        file_names = {}
 
         #Get the index of the combo box selection
         type_of_sort = self._sort_bybox.currentIndex()
@@ -77,17 +78,36 @@ class PrimaryWindow(QMainWindow):
             if type_of_sort == 0:
                 artist = track["artist"][0]
                 folder_names.append(artist)
+                file_names[path.rsplit('/', 1)[1]] = artist
             elif type_of_sort == 1:
                 album = track["album"][0]
                 folder_names.append(album)
+                file_names[path.rsplit('/', 1)[1]] = album
 
         #Remove duplicates from list
         folder_names = list(dict.fromkeys(folder_names))
-        self.sort_files(folder_names)
 
-    def sort_files(self, names):
+        self.sort_files(folder_names, file_names)
+
+        #Display a dialog showing success
+        success = QMessageBox()
+        success.setWindowTitle("Music Organizer - Success")
+        success.setText("Success!")
+        success.setStandardButtons(QMessageBox.Ok)
+        success.exec()
+
+    def sort_files(self, folder_names, file_names):
         """Sorts files into the appropriate folder"""
 
-        for name in names:
-            print(f"{self._directory}/{name}")
-            os.mkdir(f"{self._directory}/{name}/")
+        #Make a folder for each artist/album
+        for name in folder_names:
+            if not os.path.isdir(f"{self._directory}/{name}"):
+                os.mkdir(f"{self._directory}/{name}/")
+
+        #Move each file into the appropriate folder
+        for file_name in file_names:
+            folder_name = file_names[file_name]
+            src_dir = f"{self._directory}/{file_name}"
+            dest_dir = f"{self._directory}/{folder_name}/{file_name}"
+
+            os.rename(src_dir, dest_dir)

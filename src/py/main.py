@@ -9,4 +9,3 @@ if __name__ == "__main__":
 
     from ui.primary_window import PrimaryWindow
     MAIN = PrimaryWindow(APP)
-
