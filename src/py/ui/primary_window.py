@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 class PrimaryWindow(QMainWindow):
     """Class containing the main ui window"""
 
-    def __init__(self, app):
+    def __init__(self, app, ui_file):
         super().__init__()
 
         self._paths = []
@@ -22,14 +22,13 @@ class PrimaryWindow(QMainWindow):
         self._folder_textbox = None
         self._sort_bybox = None
         self._sort_button = None
-        self.load_window(app)
+        self.load_window(app, ui_file)
 
-    def load_window(self, app):
+    def load_window(self, app, ui_file):
         """Loads the main window ui"""
 
         #Load the ui from the .ui file
-        path = os.path.dirname(sys.modules['__main__'].__file__)
-        widget = uic.loadUi(os.path.join(path, '../ui/main.ui'))
+        widget = uic.loadUi(ui_file)
         widget.show()
 
         #Assign widget objects to the ui's objects
